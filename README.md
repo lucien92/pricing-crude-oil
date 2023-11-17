@@ -8,9 +8,10 @@ J'utilise un jeu de données téléchargé depuis [DataHub](https://datahub.io/)
 
 #### **Méthodes et Comparaison de Modèles**
 1. Utilisation du modèle ARIMA pour prédire le prix du pétrole brut sur 5 jours.
-2. Comparaison entre le modèle ARIMA et un réseau LSTM-CNN (CNN en tant qu'encodeur et LSTM en tant que décodeur : ResNet + une couche LSTM).
-3. Utilisation de techniques d'apprentissage telles que les transformers pour améliorer les résultats par rapport au papier de référence.
-4. Évaluation potentielle d'un modèle LSTM simple.
+2. Utilisation d'autres méthodes statistiques classiques (SVR, random trees et XGBoost)
+3. Comparaison entre le modèle ARIMA et un réseau CNN-LSTM (CNN en tant qu'encodeur et LSTM en tant que décodeur : ResNet + une couche LSTM).
+4. Utilisation de techniques d'apprentissage telles que les transformers pour améliorer les résultats par rapport au papier de référence.
+5. Évaluation potentielle d'un modèle LSTM simple.
 
 #### **Mesures d'Évaluation**
 Utilisation de la MAPE (erreur absolue moyenne en pourcentage), qui représente la moyenne des pourcentages d'erreur absolue.
