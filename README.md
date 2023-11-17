@@ -1,49 +1,33 @@
-Problem:
+### Projet de Prévision des Prix du Pétrole Brut
 
-Regression problem, we want to predict the value of the crude oil price for the nexte 5 days based on data collected on 30 years.
+#### **Objectif Principal**
+Le but est de prédire la valeur du prix du pétrole brut pour les 5 prochains jours, en utilisant des données collectées sur une période de 30 ans.
 
-Dataset:
+#### **Ensemble de Données**
+J'utilise un jeu de données téléchargé depuis [DataHub](https://datahub.io/) contenant des fréquences quotidiennes et hebdomadaires. La fréquence quotidienne contient 8501 points de données et la fréquence hebdomadaire 1762 points, couvrant la période du 01/02/1986 au 23/09/2019.
 
-I use the dataset that I downloaded from https://datahub.io/ for daily and weekly frequencies. For daily frequency this dataset contains 8501 data points and 1762 points for weekly frequency for time period from 01/02/1986 until 09/23/2019. 
+#### **Méthodes et Comparaison de Modèles**
+1. Utilisation du modèle ARIMA pour prédire le prix du pétrole brut sur 5 jours.
+2. Comparaison entre le modèle ARIMA et un réseau LSTM-CNN (CNN en tant qu'encodeur et LSTM en tant que décodeur : ResNet + une couche LSTM).
+3. Utilisation de techniques d'apprentissage telles que les transformers pour améliorer les résultats par rapport au papier de référence.
+4. Évaluation potentielle d'un modèle LSTM simple.
 
-Mapping of th eproject:
+#### **Mesures d'Évaluation**
+Utilisation de la MAPE (erreur absolue moyenne en pourcentage), qui représente la moyenne des pourcentages d'erreur absolue.
 
-1/We want to use ARIMA model to make predictions on 5 days crude oil price
+#### **Déroulement des Analyses**
 
-2/We compare ARIMA model with LSTM-CNN (encoder CNN and decoder LSTM: ResNet + one layer of LSTM) to make predictions
+##### **Préparation des Données pour les Réseaux de Neurones**
+- *X_train_value* : Les `x` dernières valeurs avant la prédiction, d'une taille fixée (loopback).
+- *y_train_labels* : Une liste de taille fixée représentant l'horizon que l'on souhaite prédire.
 
-3/We use transformers and state of art technology to overcome the results of the related paper.
+##### **Fonctionnement du Modèle CNN-LSTM**
+- _Division en Sous-Séquences_ : Chaque séquence est divisée en sous-séquences plus petites pour permettre au CNN de capturer des informations locales.
+- _Interprétation par le CNN_ : Le CNN interprète chaque sous-séquence, s'attendant à recevoir un nombre spécifique d'étapes temporelles par sous-séquence.
+- _Application de CNN_ : Les sous-séquences sont envoyées au CNN pour extraire des caractéristiques pertinentes.
+- _Wrap avec TimeDistributed_ : Le CNN est enveloppé dans des couches TimeDistributed pour appliquer des opérations sur chaque étape temporelle.
+- _Interprétation par le LSTM_ : Les sorties du CNN sont interprétées par le LSTM pour apprendre les dépendances temporelles.
+- _Prédiction_ : En combinant les informations du CNN et du LSTM, le modèle génère une prédiction finale.
 
-potential 4/ We use single LSTM
-
-Measures used to evaluate performance: 
-
-MAPE (mean absolute percentage error), la moyenne arithméatique des pourcentages d'erreur absolue.
-
-
-Sources:
-
-Documentation: https://american-cse.org/csci2022-ieee/pdfs/CSCI2022-2lPzsUSRQukMlxf8K2x89I/202800a089/202800a089.pdf (research paper on time series forecasting)
-
-
-Documentations et point sur les méthodes utilisées:
-
-Préparation des séries temporelles pour les réseau de neurones:
-
-Dans les donnée d'entrainement
-les x_train_value sont: les x dernière valeurs avant une prédiction, d'une taiolle fixée loopback
-les y_train_labels: une liste de taille fixée horizon que l'on souhaite prédire
-
-Fonctionnement du CNN-LSTM:
-
-    Division en sous-séquences : Chaque séquence de données est divisée en sous-séquences plus petites pour permettre au CNN de capturer des informations locales. Par exemple, si une séquence contient 10 étapes temporelles, elle peut être divisée en sous-séquences de 2 étapes temporelles chacune.
-
-    Interprétation par le CNN : Le modèle CNN est configuré pour interpréter chaque sous-séquence, en s'attendant à recevoir 2 étapes temporelles par sous-séquence avec une seule caractéristique (ou canal). Le CNN extrait des caractéristiques pertinentes pour chaque sous-séquence.
-
-    Application de CNN sur chaque sous-séquence : Les sous-séquences sont présentées au modèle CNN, et pour chaque sous-séquence, le CNN extrait des informations locales, capturant les détails et les motifs spécifiques à ces deux étapes temporelles.
-
-    Wrap avec TimeDistributed : Le modèle CNN est enveloppé dans des couches TimeDistributed, une couche spécifique utilisée dans les réseaux récurrents pour appliquer des opérations sur chaque étape temporelle de manière indépendante. Ainsi, le modèle CNN est appliqué à chaque sous-séquence individuellement.
-
-    Interprétation par le LSTM : Les sorties du CNN pour chaque sous-séquence sont ensuite interprétées par la couche LSTM. Le LSTM peut comprendre les relations séquentielles entre les sorties du CNN et apprendre les dépendances temporelles plus longues.
-
-    Prédiction : En fin de compte, après avoir interprété toutes les sous-séquences avec le CNN et le LSTM, le modèle combine ces informations pour générer une prédiction finale pour les étapes temporelles suivantes.
+### Source de Référence
+La méthodologie est alignée avec la documentation scientifique disponible à [ce lien](https://american-cse.org/csci2022-ieee/pdfs/CSCI2022-2lPzsUSRQukMlxf8K2x89I/202800a089/202800a089.pdf) sur la prévision des séries temporelles.
